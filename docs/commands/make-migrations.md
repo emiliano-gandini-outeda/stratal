@@ -48,10 +48,11 @@ If no description is provided, "auto_generated" will be used.
 
 ## How It Works
 
-1. **Model Discovery**: Searches for SQLAlchemy models in:
-   - `models/` directory (default)
-   - `model/` directory (alternative)
-   - Custom paths specified in `DBWARDEN_MODEL_PATHS`
+1. **Model Discovery**: Automatically discovers SQLAlchemy models by:
+   - Scanning all subdirectories of the current directory
+   - Looking for `models/` or `model/` folders inside each subdirectory
+   - Searching parent directories (up to 5 levels)
+   - Ignoring common library folders (`.venv`, `node_modules`, etc.)
 
 2. **Table Extraction**: Reads table definitions from discovered models:
    - Column names and types
