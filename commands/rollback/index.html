@@ -878,6 +878,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#combined-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combined Options
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1773,6 +1784,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#combined-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combined Options
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2186,32 +2208,37 @@
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
 <p>The <code>rollback</code> command undoes migrations that have been applied to the database, reverting schema changes.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>rollback
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>rollback<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 
 <h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Option</th>
+<th>Short</th>
+<th>Long</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>--count</code>, <code>-c</code></td>
+<td><code>-c</code></td>
+<td><code>--count COUNT</code></td>
 <td>Number of migrations to rollback</td>
 </tr>
 <tr>
-<td><code>--to-version</code>, <code>-t</code></td>
+<td><code>-t</code></td>
+<td><code>--to-version VERSION</code></td>
 <td>Rollback to a specific version</td>
 </tr>
 <tr>
-<td><code>--verbose</code>, <code>-v</code></td>
+<td><code>-v</code></td>
+<td><code>--verbose</code></td>
 <td>Enable verbose logging</td>
 </tr>
 </tbody>
 </table>
+<p><strong>None of these options are required. All are optional.</strong></p>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="rollback-last-migration">Rollback Last Migration<a class="headerlink" href="#rollback-last-migration" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>rollback
@@ -2220,10 +2247,18 @@
 <h3 id="rollback-multiple-migrations">Rollback Multiple Migrations<a class="headerlink" href="#rollback-multiple-migrations" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Rollback last 3 migrations</span>
 dbwarden<span class="w"> </span>rollback<span class="w"> </span>--count<span class="w"> </span><span class="m">3</span>
+<span class="c1"># or</span>
+dbwarden<span class="w"> </span>rollback<span class="w"> </span>-c<span class="w"> </span><span class="m">3</span>
 </code></pre></div>
 
 <h3 id="rollback-to-specific-version">Rollback to Specific Version<a class="headerlink" href="#rollback-to-specific-version" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>rollback<span class="w"> </span>--to-version<span class="w"> </span>20240215_143000
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>rollback<span class="w"> </span>--to-version<span class="w"> </span><span class="m">0001</span>
+<span class="c1"># or</span>
+dbwarden<span class="w"> </span>rollback<span class="w"> </span>-t<span class="w"> </span><span class="m">0001</span>
+</code></pre></div>
+
+<h3 id="combined-options">Combined Options<a class="headerlink" href="#combined-options" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>rollback<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">0001</span><span class="w"> </span>-v
 </code></pre></div>
 
 <h2 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
@@ -2246,22 +2281,22 @@ dbwarden<span class="w"> </span>rollback<span class="w"> </span>--count<span cla
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  3. Parse rollback statements from migration file       │
+│  3. Parse rollback statements from migration file        │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  4. Execute rollback SQL statements                     │
+│  4. Execute rollback SQL statements                      │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  5. Remove migration record from database               │
+│  5. Remove migration record from database                │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  6. Release lock                                         │
+│  6. Release lock                                        │
 └─────────────────────────────────────────────────────────┘
 </code></pre></div>
 
@@ -2272,10 +2307,10 @@ dbwarden<span class="w"> </span>rollback<span class="w"> </span>--count<span cla
 
 <p>Rolls back the last 2 migrations in reverse order.</p>
 <h3 id="with-to-version">With --to-version<a class="headerlink" href="#with-to-version" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>rollback<span class="w"> </span>--to-version<span class="w"> </span>20240215_143000
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>rollback<span class="w"> </span>--to-version<span class="w"> </span><span class="m">0001</span>
 </code></pre></div>
 
-<p>Rolls back all migrations after and including the specified version.</p>
+<p>Rolls back all migrations after and including the specified version, leaving the database at the state just before that version.</p>
 <h3 id="default-behavior">Default Behavior<a class="headerlink" href="#default-behavior" title="Permanent link">&para;</a></h3>
 <p>Without options, rolls back exactly 1 migration.</p>
 <h2 id="output-examples">Output Examples<a class="headerlink" href="#output-examples" title="Permanent link">&para;</a></h2>
@@ -2286,10 +2321,11 @@ Rollback completed successfully: 1 migrations reverted.
 </code></pre></div>
 
 <h3 id="verbose-output">Verbose Output<a class="headerlink" href="#verbose-output" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="nl">Mode</span><span class="p">:</span><span class="w"> </span><span class="n">sync</span>
-<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="n">Rolling</span><span class="w"> </span><span class="n">back</span><span class="w"> </span><span class="nl">migration</span><span class="p">:</span><span class="w"> </span><span class="mi">0003</span><span class="n">_create_posts</span><span class="p">.</span><span class="k">sql</span>
-<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="k">SQL</span><span class="w"> </span><span class="k">Statement</span><span class="err">:</span><span class="w"> </span><span class="k">DROP</span><span class="w"> </span><span class="nc">TABLE</span><span class="w"> </span><span class="n">posts</span>
-<span class="k">Rollback</span><span class="w"> </span><span class="n">completed</span><span class="w"> </span><span class="nl">successfully</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">migrations</span><span class="w"> </span><span class="n">reverted</span><span class="p">.</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">Detected</span><span class="w"> </span><span class="nt">execution</span><span class="w"> </span><span class="nt">mode</span><span class="o">:</span><span class="w"> </span><span class="nt">sync</span>
+<span class="nt">Rolling</span><span class="w"> </span><span class="nt">back</span><span class="w"> </span><span class="nt">migration</span><span class="o">:</span><span class="w"> </span><span class="nt">0003_create_posts</span><span class="p">.</span><span class="nc">sql</span><span class="w"> </span><span class="o">(</span><span class="nt">version</span><span class="o">:</span><span class="w"> </span><span class="nt">0003</span><span class="o">)</span>
+<span class="nt">DROP</span><span class="w"> </span><span class="nt">TABLE</span><span class="w"> </span><span class="nt">posts</span><span class="o">;</span>
+<span class="nt">Rollback</span><span class="w"> </span><span class="nt">completed</span><span class="o">:</span><span class="w"> </span><span class="nt">0003_create_posts</span><span class="p">.</span><span class="nc">sql</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">0</span><span class="p">.</span><span class="nc">03s</span>
+<span class="nt">Rollback</span><span class="w"> </span><span class="nt">completed</span><span class="w"> </span><span class="nt">successfully</span><span class="o">:</span><span class="w"> </span><span class="nt">1</span><span class="w"> </span><span class="nt">migrations</span><span class="w"> </span><span class="nt">reverted</span><span class="o">.</span>
 </code></pre></div>
 
 <h3 id="nothing-to-rollback">Nothing to Rollback<a class="headerlink" href="#nothing-to-rollback" title="Permanent link">&para;</a></h3>
@@ -2368,16 +2404,16 @@ dbwarden<span class="w"> </span>migrate
 <h3 id="scenario-2-wrong-version-applied">Scenario 2: Wrong Version Applied<a class="headerlink" href="#scenario-2-wrong-version-applied" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Wrong migration applied</span>
 dbwarden<span class="w"> </span>status
-<span class="c1"># Shows: V2.0.0__breaking_change applied (should be V1.9.0)</span>
+<span class="c1"># Shows: 0003_create_posts applied (should be 0002)</span>
 
 <span class="c1"># Rollback to correct version</span>
-dbwarden<span class="w"> </span>rollback<span class="w"> </span>--to-version<span class="w"> </span><span class="m">1</span>.9.0
-<span class="c1"># Correct migrations now at V1.9.0</span>
+dbwarden<span class="w"> </span>rollback<span class="w"> </span>--to-version<span class="w"> </span><span class="m">0002</span>
+<span class="c1"># Correct migrations now at 0002</span>
 </code></pre></div>
 
 <h3 id="scenario-3-complete-reset">Scenario 3: Complete Reset<a class="headerlink" href="#scenario-3-complete-reset" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Rollback all migrations</span>
-dbwarden<span class="w"> </span>rollback<span class="w"> </span>--count<span class="w"> </span><span class="k">$(</span>dbwarden<span class="w"> </span>status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Applied&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+dbwarden<span class="w"> </span>rollback<span class="w"> </span>--count<span class="w"> </span><span class="m">999</span>
 <span class="c1"># All migrations reverted to clean state</span>
 </code></pre></div>
 

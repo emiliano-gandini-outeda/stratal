@@ -1862,7 +1862,7 @@
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
 <p>The <code>new</code> command creates a blank migration file for manual SQL authoring. Use this when you need to write custom SQL that cannot be auto-generated from models.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>new<span class="w"> </span><span class="s2">&quot;description of migration&quot;</span>
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>new<span class="w"> </span>DESCRIPTION<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 
 <h2 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h2>
@@ -1884,17 +1884,20 @@
 <table>
 <thead>
 <tr>
-<th>Option</th>
+<th>Short</th>
+<th>Long</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>--version</code>, <code>-v</code></td>
+<td></td>
+<td><code>--version VERSION</code></td>
 <td>Specific version number for the migration</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Note: The <code>--version</code> option does not have a short form. Use <code>--version</code> or <code>--version VERSION</code>.</strong></p>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>new<span class="w"> </span><span class="s2">&quot;add index to users email&quot;</span>

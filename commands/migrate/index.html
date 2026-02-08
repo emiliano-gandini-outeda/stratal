@@ -861,6 +861,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#combined-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combined Options
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -893,6 +904,17 @@
     <span class="md-ellipsis">
       
         Migrations Tracking Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-execution-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Execution Order
       
     </span>
   </a>
@@ -1684,6 +1706,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#combined-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combined Options
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1716,6 +1749,17 @@
     <span class="md-ellipsis">
       
         Migrations Tracking Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-execution-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration Execution Order
       
     </span>
   </a>
@@ -1986,32 +2030,37 @@
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
 <p>The <code>migrate</code> command executes all pending migration files, updating the database schema to match your current migration state.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>migrate
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>migrate<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 
 <h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Option</th>
+<th>Short</th>
+<th>Long</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>--count</code>, <code>-c</code></td>
+<td><code>-c</code></td>
+<td><code>--count COUNT</code></td>
 <td>Number of migrations to apply</td>
 </tr>
 <tr>
-<td><code>--to-version</code>, <code>-t</code></td>
+<td><code>-t</code></td>
+<td><code>--to-version VERSION</code></td>
 <td>Migrate to a specific version</td>
 </tr>
 <tr>
-<td><code>--verbose</code>, <code>-v</code></td>
+<td><code>-v</code></td>
+<td><code>--verbose</code></td>
 <td>Enable verbose logging</td>
 </tr>
 </tbody>
 </table>
+<p><strong>None of these options are required. All are optional.</strong></p>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="apply-all-pending-migrations">Apply All Pending Migrations<a class="headerlink" href="#apply-all-pending-migrations" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>migrate
@@ -2019,15 +2068,25 @@
 
 <h3 id="apply-with-verbose-output">Apply with Verbose Output<a class="headerlink" href="#apply-with-verbose-output" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>migrate<span class="w"> </span>--verbose
+<span class="c1"># or</span>
+dbwarden<span class="w"> </span>migrate<span class="w"> </span>-v
 </code></pre></div>
 
 <h3 id="apply-specific-number-of-migrations">Apply Specific Number of Migrations<a class="headerlink" href="#apply-specific-number-of-migrations" title="Permanent link">&para;</a></h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Apply next 2 migrations</span>
 dbwarden<span class="w"> </span>migrate<span class="w"> </span>--count<span class="w"> </span><span class="m">2</span>
+<span class="c1"># or</span>
+dbwarden<span class="w"> </span>migrate<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span>
 </code></pre></div>
 
 <h3 id="migrate-to-specific-version">Migrate to Specific Version<a class="headerlink" href="#migrate-to-specific-version" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>migrate<span class="w"> </span>--to-version<span class="w"> </span>20240215_143000
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>migrate<span class="w"> </span>--to-version<span class="w"> </span><span class="m">0003</span>
+<span class="c1"># or</span>
+dbwarden<span class="w"> </span>migrate<span class="w"> </span>-t<span class="w"> </span><span class="m">0003</span>
+</code></pre></div>
+
+<h3 id="combined-options">Combined Options<a class="headerlink" href="#combined-options" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>migrate<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span><span class="w"> </span>-t<span class="w"> </span><span class="m">0002</span><span class="w"> </span>-v
 </code></pre></div>
 
 <h2 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
@@ -2035,7 +2094,7 @@ dbwarden<span class="w"> </span>migrate<span class="w"> </span>--count<span clas
 <li><strong>Creates migrations tracking table</strong>: Creates <code>dbwarden_migrations</code> table if it doesn't exist</li>
 <li><strong>Creates lock table</strong>: Creates <code>dbwarden_lock</code> table for concurrency control</li>
 <li><strong>Finds pending migrations</strong>: Identifies migrations not yet applied</li>
-<li><strong>Applies migrations</strong>: Executes each migration in order</li>
+<li><strong>Applies migrations</strong>: Executes each migration in order (versioned, then RA__, then ROC__)</li>
 <li><strong>Records execution</strong>: Stores migration metadata in database</li>
 </ol>
 <h2 id="internal-process">Internal Process<a class="headerlink" href="#internal-process" title="Permanent link">&para;</a></h2>
@@ -2045,27 +2104,27 @@ dbwarden<span class="w"> </span>migrate<span class="w"> </span>--count<span clas
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  2. Create dbwarden_lock table (if not exists)        │
+│  2. Create dbwarden_lock table (if not exists)         │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  3. Acquire migration lock                             │
+│  3. Acquire migration lock                              │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  4. Find pending migrations                             │
+│  4. Find pending migrations                              │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  5. Parse migration files (upgrade statements)         │
+│  5. Parse migration files (upgrade statements)          │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  6. Execute SQL statements                              │
+│  6. Execute SQL statements                               │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
@@ -2075,7 +2134,7 @@ dbwarden<span class="w"> </span>migrate<span class="w"> </span>--count<span clas
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
-│  8. Release lock                                         │
+│  8. Release lock                                        │
 └─────────────────────────────────────────────────────────┘
 </code></pre></div>
 
@@ -2098,7 +2157,7 @@ dbwarden<span class="w"> </span>migrate<span class="w"> </span>--count<span clas
 <tr>
 <td><code>version</code></td>
 <td>VARCHAR</td>
-<td>Migration version</td>
+<td>Migration version (NULL for repeatables)</td>
 </tr>
 <tr>
 <td><code>description</code></td>
@@ -2113,7 +2172,7 @@ dbwarden<span class="w"> </span>migrate<span class="w"> </span>--count<span clas
 <tr>
 <td><code>migration_type</code></td>
 <td>VARCHAR</td>
-<td>Type (versioned)</td>
+<td>Type (versioned, runs_always, runs_on_change)</td>
 </tr>
 <tr>
 <td><code>checksum</code></td>
@@ -2127,6 +2186,12 @@ dbwarden<span class="w"> </span>migrate<span class="w"> </span>--count<span clas
 </tr>
 </tbody>
 </table>
+<h2 id="migration-execution-order">Migration Execution Order<a class="headerlink" href="#migration-execution-order" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Versioned migrations</strong> (NNNN_*.sql): In sequential order</li>
+<li><strong>Runs-Always migrations</strong> (RA__*.sql): Every execution</li>
+<li><strong>Runs-On-Change migrations</strong> (ROC__*.sql): Only when checksum changes</li>
+</ol>
 <h2 id="locking-mechanism">Locking Mechanism<a class="headerlink" href="#locking-mechanism" title="Permanent link">&para;</a></h2>
 <p>DBWarden uses a locking mechanism to prevent concurrent migration execution:</p>
 <ul>
@@ -2145,28 +2210,24 @@ dbwarden<span class="w"> </span>migrate<span class="w"> </span>--count<span clas
 <p><strong>Warning</strong>: Only use <code>unlock</code> if you're certain no other migration process is running.</p>
 <h2 id="output-examples">Output Examples<a class="headerlink" href="#output-examples" title="Permanent link">&para;</a></h2>
 <h3 id="successful-migration">Successful Migration<a class="headerlink" href="#successful-migration" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="n">Applying</span><span class="w"> </span><span class="nl">migration</span><span class="p">:</span><span class="w"> </span><span class="mi">0001</span><span class="n">_create_users</span><span class="p">.</span><span class="k">sql</span>
-<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="n">Applying</span><span class="w"> </span><span class="nl">migration</span><span class="p">:</span><span class="w"> </span><span class="mi">0002</span><span class="n">_create_posts</span><span class="p">.</span><span class="k">sql</span>
-<span class="n">Migrations</span><span class="w"> </span><span class="n">completed</span><span class="w"> </span><span class="nl">successfully</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">migrations</span><span class="w"> </span><span class="n">applied</span><span class="p">.</span>
+<div class="codehilite"><pre><span></span><code>Pending migrations (1):
+  <span class="k">-</span> 0001
+Starting migration: 0001_create_users.sql
+Completed migration: 0001_create_users.sql in 0.05s
+Migrations completed successfully: 1 migrations applied.
 </code></pre></div>
 
 <h3 id="verbose-output">Verbose Output<a class="headerlink" href="#verbose-output" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="nl">Mode</span><span class="p">:</span><span class="w"> </span><span class="n">sync</span>
-<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="n">Pending</span><span class="w"> </span><span class="nl">migrations</span><span class="p">:</span><span class="w"> </span><span class="mi">0001</span><span class="n">_create_users</span><span class="p">,</span><span class="w"> </span><span class="mi">0002</span><span class="n">_create_posts</span>
-<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="n">Starting</span><span class="w"> </span><span class="nl">migration</span><span class="p">:</span><span class="w"> </span><span class="mi">0001</span><span class="n">_create_users</span><span class="p">.</span><span class="k">sql</span>
-<span class="k">CREATE</span><span class="w"> </span><span class="nc">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="k">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
-<span class="w">    </span><span class="n">username</span><span class="w"> </span><span class="nc">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="ow">NOT</span><span class="w"> </span><span class="k">NULL</span>
-<span class="p">)</span>
-<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="n">Migration</span><span class="w"> </span><span class="nl">completed</span><span class="p">:</span><span class="w"> </span><span class="mi">0001</span><span class="n">_create_users</span><span class="p">.</span><span class="k">sql</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">0.05</span><span class="n">s</span>
-<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="n">Starting</span><span class="w"> </span><span class="nl">migration</span><span class="p">:</span><span class="w"> </span><span class="mi">0002</span><span class="n">_create_posts</span><span class="p">.</span><span class="k">sql</span>
-<span class="k">CREATE</span><span class="w"> </span><span class="nc">TABLE</span><span class="w"> </span><span class="n">posts</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="k">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
-<span class="w">    </span><span class="nf">user_id</span><span class="w"> </span><span class="k">INTEGER</span><span class="p">,</span>
-<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="nc">VARCHAR</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="ow">NOT</span><span class="w"> </span><span class="k">NULL</span>
-<span class="p">)</span>
-<span class="o">[</span><span class="n">INFO</span><span class="o">]</span><span class="w"> </span><span class="n">Migration</span><span class="w"> </span><span class="nl">completed</span><span class="p">:</span><span class="w"> </span><span class="mi">0002</span><span class="n">_create_posts</span><span class="p">.</span><span class="k">sql</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="mf">0.03</span><span class="n">s</span>
-<span class="n">Migrations</span><span class="w"> </span><span class="n">completed</span><span class="w"> </span><span class="nl">successfully</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">migrations</span><span class="w"> </span><span class="n">applied</span><span class="p">.</span>
+<div class="codehilite"><pre><span></span><code>Detected execution mode: sync
+Pending migrations (1):
+  <span class="k">-</span> 0001
+Starting migration: 0001_create_users.sql (version: 0001)
+CREATE TABLE users (
+    id INTEGER NOT NULL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL
+)
+Completed migration: 0001_create_users.sql (version: 0001) in 0.05s
+Migrations completed successfully: 1 migrations applied.
 </code></pre></div>
 
 <h3 id="no-pending-migrations">No Pending Migrations<a class="headerlink" href="#no-pending-migrations" title="Permanent link">&para;</a></h3>
@@ -2184,7 +2245,7 @@ dbwarden<span class="w"> </span>migrate<span class="w"> </span>--count<span clas
 <h3 id="checksum-validation">Checksum Validation<a class="headerlink" href="#checksum-validation" title="Permanent link">&para;</a></h3>
 <p>DBWarden validates migration file checksums to ensure integrity:</p>
 <ul>
-<li><strong>Before execution</strong>: Verifies file hasn't been modified</li>
+<li><strong>Before execution</strong>: Verifies file hasn't been modified (for ROC__)</li>
 <li><strong>Integrity check</strong>: Compares stored checksum with current file</li>
 </ul>
 <h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
@@ -2220,7 +2281,7 @@ dbwarden<span class="w"> </span>rollback
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python</span>
 <span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
 <span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.11&#39;</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.12&#39;</span>
 
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install dependencies</span>
 <span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>

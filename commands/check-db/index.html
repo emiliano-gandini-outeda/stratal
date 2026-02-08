@@ -962,6 +962,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#sql-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-output_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Output
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1612,6 +1634,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#sql-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-output_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQL Output
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1864,61 +1908,38 @@
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
 <p>The <code>check-db</code> command connects to your database and displays information about its current schema, including tables, columns, indexes, and foreign keys.</p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>check-db
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>check-db<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </code></pre></div>
 
 <h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Option</th>
+<th>Short</th>
+<th>Long</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>--out</code>, <code>-o</code></td>
-<td>Output format: <code>txt</code> (default), <code>json</code>, <code>yaml</code></td>
+<td><code>-o</code></td>
+<td><code>--out FORMAT</code></td>
+<td>Output format: <code>txt</code> (default), <code>json</code>, <code>yaml</code>, <code>sql</code></td>
 </tr>
 </tbody>
 </table>
+<p><strong>This option is not required. Default is <code>txt</code>.</strong></p>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="text-output-default">Text Output (Default)<a class="headerlink" href="#text-output-default" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>dbwarden<span class="w"> </span>check-db
-
-Table:<span class="w"> </span>users
-----------
-<span class="w">  </span>id:<span class="w"> </span>INTEGER<span class="w"> </span>PRIMARY<span class="w"> </span>KEY<span class="w"> </span>AUTOINCREMENT
-<span class="w">  </span>username:<span class="w"> </span>VARCHAR<span class="o">(</span><span class="m">50</span><span class="o">)</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span>UNIQUE
-<span class="w">  </span>email:<span class="w"> </span>VARCHAR<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span>UNIQUE
-<span class="w">  </span>created_at:<span class="w"> </span>DATETIME<span class="w"> </span>NULL
-
-<span class="w">  </span>Indexes:
-<span class="w">    </span>-<span class="w"> </span>idx_users_email:<span class="w"> </span>email
-
-Table:<span class="w"> </span>posts
-----------
-<span class="w">  </span>id:<span class="w"> </span>INTEGER<span class="w"> </span>PRIMARY<span class="w"> </span>KEY<span class="w"> </span>AUTOINCREMENT
-<span class="w">  </span>user_id:<span class="w"> </span>INTEGER<span class="w"> </span>NOT<span class="w"> </span>NULL
-<span class="w">  </span>title:<span class="w"> </span>VARCHAR<span class="o">(</span><span class="m">200</span><span class="o">)</span><span class="w"> </span>NOT<span class="w"> </span>NULL
-<span class="w">  </span>content:<span class="w"> </span>TEXT<span class="w"> </span>NULL
-
-<span class="w">  </span>Foreign<span class="w"> </span>Keys:
-<span class="w">    </span>-<span class="w"> </span>fk_posts_user_id:<span class="w"> </span>user_id<span class="w"> </span>-&gt;<span class="w"> </span>users<span class="o">(</span>id<span class="o">)</span>
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>check-db
+<span class="c1"># or</span>
+dbwarden<span class="w"> </span>check-db<span class="w"> </span>--out<span class="w"> </span>txt
 </code></pre></div>
 
 <h3 id="json-output">JSON Output<a class="headerlink" href="#json-output" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>dbwarden<span class="w"> </span>check-db<span class="w"> </span>--out<span class="w"> </span>json
-<span class="o">{</span>
-<span class="w">  </span><span class="s2">&quot;users&quot;</span>:<span class="w"> </span><span class="o">{</span>
-<span class="w">    </span><span class="s2">&quot;columns&quot;</span>:<span class="w"> </span><span class="o">[</span>
-<span class="w">      </span><span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;id&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;INTEGER&quot;</span>,<span class="w"> </span><span class="s2">&quot;nullable&quot;</span>:<span class="w"> </span>false,<span class="w"> </span><span class="s2">&quot;default&quot;</span>:<span class="w"> </span>null<span class="o">}</span>,
-<span class="w">      </span><span class="o">{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;username&quot;</span>,<span class="w"> </span><span class="s2">&quot;type&quot;</span>:<span class="w"> </span><span class="s2">&quot;VARCHAR(50)&quot;</span>,<span class="w"> </span><span class="s2">&quot;nullable&quot;</span>:<span class="w"> </span>false,<span class="w"> </span><span class="s2">&quot;default&quot;</span>:<span class="w"> </span>null<span class="o">}</span>
-<span class="w">    </span><span class="o">]</span>,
-<span class="w">    </span><span class="s2">&quot;indexes&quot;</span>:<span class="w"> </span><span class="o">[{</span><span class="s2">&quot;name&quot;</span>:<span class="w"> </span><span class="s2">&quot;idx_users_email&quot;</span>,<span class="w"> </span><span class="s2">&quot;columns&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;email&quot;</span><span class="o">]}]</span>,
-<span class="w">    </span><span class="s2">&quot;foreign_keys&quot;</span>:<span class="w"> </span><span class="o">[]</span>
-<span class="w">  </span><span class="o">}</span>
-<span class="o">}</span>
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>check-db<span class="w"> </span>--out<span class="w"> </span>json
+<span class="c1"># or</span>
+dbwarden<span class="w"> </span>check-db<span class="w"> </span>-o<span class="w"> </span>json
 </code></pre></div>
 
 <h3 id="yaml-output">YAML Output<a class="headerlink" href="#yaml-output" title="Permanent link">&para;</a></h3>
@@ -1930,6 +1951,31 @@ users:
 <span class="w">  </span>foreign_keys:<span class="w"> </span><span class="o">[]</span>
 <span class="w">  </span>indexes:
 <span class="w">  </span>-<span class="w"> </span><span class="o">{</span>columns:<span class="w"> </span><span class="o">[</span>email<span class="o">]</span>,<span class="w"> </span>name:<span class="w"> </span>idx_users_email<span class="o">}</span>
+</code></pre></div>
+
+<h3 id="sql-output">SQL Output<a class="headerlink" href="#sql-output" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>dbwarden<span class="w"> </span>check-db<span class="w"> </span>--out<span class="w"> </span>sql
+--<span class="w"> </span>Table:<span class="w"> </span>users
+CREATE<span class="w"> </span>TABLE<span class="w"> </span>users<span class="w"> </span><span class="o">(</span>
+<span class="w">    </span>id<span class="w"> </span>INTEGER<span class="w"> </span>PRIMARY<span class="w"> </span>KEY<span class="w"> </span>AUTOINCREMENT,
+<span class="w">    </span>username<span class="w"> </span>VARCHAR<span class="o">(</span><span class="m">50</span><span class="o">)</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span>UNIQUE,
+<span class="w">    </span>email<span class="w"> </span>VARCHAR<span class="o">(</span><span class="m">255</span><span class="o">)</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span>UNIQUE,
+<span class="w">    </span>created_at<span class="w"> </span>DATETIME
+<span class="o">)</span><span class="p">;</span>
+
+--<span class="w"> </span>Table:<span class="w"> </span>posts
+CREATE<span class="w"> </span>TABLE<span class="w"> </span>posts<span class="w"> </span><span class="o">(</span>
+<span class="w">    </span>id<span class="w"> </span>INTEGER<span class="w"> </span>PRIMARY<span class="w"> </span>KEY<span class="w"> </span>AUTOINCREMENT,
+<span class="w">    </span>user_id<span class="w"> </span>INTEGER<span class="w"> </span>NOT<span class="w"> </span>NULL,
+<span class="w">    </span>title<span class="w"> </span>VARCHAR<span class="o">(</span><span class="m">200</span><span class="o">)</span><span class="w"> </span>NOT<span class="w"> </span>NULL,
+<span class="w">    </span>content<span class="w"> </span>TEXT
+<span class="o">)</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="sql-output_1">SQL Output<a class="headerlink" href="#sql-output_1" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>dbwarden<span class="w"> </span>check-db<span class="w"> </span>--out<span class="w"> </span>sql
+<span class="c1"># or</span>
+dbwarden<span class="w"> </span>check-db<span class="w"> </span>-o<span class="w"> </span>sql
 </code></pre></div>
 
 <h2 id="what-it-inspects">What It Inspects<a class="headerlink" href="#what-it-inspects" title="Permanent link">&para;</a></h2>
