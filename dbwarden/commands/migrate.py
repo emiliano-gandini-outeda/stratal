@@ -1,13 +1,21 @@
 import time
 
+from dbwarden.constants import RUNS_ALWAYS_FILE_PREFIX, RUNS_ON_CHANGE_FILE_PREFIX
 from dbwarden.engine.file_parser import parse_upgrade_statements
-from dbwarden.engine.version import get_migrations_directory
+from dbwarden.engine.version import (
+    get_migrations_directory,
+    get_runs_always_filepaths,
+    get_runs_on_change_filepaths,
+)
 from dbwarden.logging import get_logger
 from dbwarden.repositories import (
     create_migrations_table_if_not_exists,
     create_lock_table_if_not_exists,
     fetch_latest_versioned_migration,
+    get_existing_runs_always_filenames,
+    get_existing_runs_on_change_filenames_to_checksums,
     run_migration,
+    run_repeatable_migration,
 )
 
 
@@ -47,14 +55,24 @@ def migrate_cmd(
         migrations_dir=migrations_dir,
     )
 
-    if not filepaths_by_version:
+    runs_always_filepaths = get_runs_always_filepaths(migrations_dir)
+    runs_on_change_filepaths = get_runs_on_change_filepaths(
+        migrations_dir, changed_only=True
+    )
+
+    if (
+        not filepaths_by_version
+        and not runs_always_filepaths
+        and not runs_on_change_filepaths
+    ):
         print("Migrations are up to date.")
         return
 
-    logger.log_pending_migrations(list(filepaths_by_version.keys()))
+    if filepaths_by_version:
+        logger.log_pending_migrations(list(filepaths_by_version.keys()))
 
     for version, filepath in filepaths_by_version.items():
-        filename = filename = filepath.split("/")[-1]
+        filename = filepath.split("/")[-1]
         sql_statements = parse_upgrade_statements(filepath)
 
         for sql in sql_statements:
@@ -72,6 +90,50 @@ def migrate_cmd(
 
         duration = time.time() - start_time
         logger.log_migration_end(version, filename, duration)
+
+    existing_runs_always = get_existing_runs_always_filenames()
+    existing_runs_on_change = get_existing_runs_on_change_filenames_to_checksums()
+
+    for filepath in runs_always_filepaths:
+        filename = filepath.split("/")[-1]
+        sql_statements = parse_upgrade_statements(filepath)
+
+        start_time = time.time()
+        logger.log_migration_start("RA", filename)
+
+        if filename in existing_runs_always:
+            run_repeatable_migration(
+                sql_statements=sql_statements,
+                filename=filename,
+                migration_type="runs_always",
+            )
+        else:
+            run_migration(
+                sql_statements=sql_statements,
+                version=None,
+                migration_operation="upgrade",
+                filename=filename,
+                migration_type="runs_always",
+            )
+
+        duration = time.time() - start_time
+        logger.log_migration_end("RA", filename, duration)
+
+    for filepath in runs_on_change_filepaths:
+        filename = filepath.split("/")[-1]
+        sql_statements = parse_upgrade_statements(filepath)
+
+        start_time = time.time()
+        logger.log_migration_start("ROC", filename)
+
+        run_repeatable_migration(
+            sql_statements=sql_statements,
+            filename=filename,
+            migration_type="runs_on_change",
+        )
+
+        duration = time.time() - start_time
+        logger.log_migration_end("ROC", filename, duration)
 
     print(
         f"Migrations completed successfully: {len(filepaths_by_version)} migrations applied."
