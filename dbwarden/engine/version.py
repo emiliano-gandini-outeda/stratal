@@ -1,5 +1,7 @@
 from dbwarden.constants import (
     MIGRATIONS_DIR,
+    RUNS_ALWAYS_FILE_PREFIX,
+    RUNS_ON_CHANGE_FILE_PREFIX,
 )
 from dbwarden.exceptions import DirectoryNotFoundError
 from pathlib import Path
@@ -29,6 +31,10 @@ def get_migrations_directory() -> str:
 
 
 MIGRATION_PATTERN = re.compile(r"^(\d{4})_(.+)\.sql$")
+RUNS_ALWAYS_PATTERN = re.compile(rf"^{re.escape(RUNS_ALWAYS_FILE_PREFIX)}(.+)\.sql$")
+RUNS_ON_CHANGE_PATTERN = re.compile(
+    rf"^{re.escape(RUNS_ON_CHANGE_FILE_PREFIX)}(.+)\.sql$"
+)
 
 
 def get_migration_filepaths_by_version(
@@ -75,6 +81,95 @@ def get_migration_filepaths_by_version(
             migrations = {k: v for k, v in list(migrations.items())[: end_idx + 1]}
 
     return migrations
+
+
+def get_runs_always_filepaths(directory: str) -> list[str]:
+    """
+    Get all runs-always (RA__) migration file paths.
+
+    Args:
+        directory: Path to migrations directory.
+
+    Returns:
+        list[str]: List of file paths for runs-always migrations.
+    """
+    filepaths = []
+
+    if not os.path.exists(directory):
+        return []
+
+    for filename in sorted(os.listdir(directory)):
+        match = RUNS_ALWAYS_PATTERN.match(filename)
+        if match:
+            filepath = os.path.join(directory, filename)
+            filepaths.append(filepath)
+
+    return filepaths
+
+
+def get_runs_on_change_filepaths(
+    directory: str, changed_only: bool = False
+) -> list[str]:
+    """
+    Get all runs-on-change (ROC__) migration file paths.
+
+    Args:
+        directory: Path to migrations directory.
+        changed_only: Only return files that have changed since last run.
+
+    Returns:
+        list[str]: List of file paths for runs-on-change migrations.
+    """
+    from dbwarden.engine.checksum import calculate_checksum
+    from dbwarden.repositories import (
+        get_existing_runs_on_change_filenames_to_checksums,
+    )
+
+    filepaths = []
+
+    if not os.path.exists(directory):
+        return []
+
+    for filename in sorted(os.listdir(directory)):
+        match = RUNS_ON_CHANGE_PATTERN.match(filename)
+        if match:
+            filepath = os.path.join(directory, filename)
+            if changed_only:
+                existing_checksums = (
+                    get_existing_runs_on_change_filenames_to_checksums()
+                )
+                if filename in existing_checksums:
+                    with open(filepath, "r") as f:
+                        content = f.read()
+                    from dbwarden.engine.file_parser import parse_upgrade_statements
+
+                    statements = parse_upgrade_statements(filepath)
+                    current_checksum = calculate_checksum(statements)
+                    existing_checksum = existing_checksums[filename]
+                    if current_checksum != existing_checksum:
+                        filepaths.append(filepath)
+                else:
+                    filepaths.append(filepath)
+            else:
+                filepaths.append(filepath)
+
+    return filepaths
+
+
+def get_all_repeatable_filepaths(directory: str) -> dict[str, list[str]]:
+    """
+    Get all repeatable migration file paths (both RA__ and ROC__).
+
+    Args:
+        directory: Path to migrations directory.
+
+    Returns:
+        dict[str, list[str]]: Dictionary with 'runs_always' and 'runs_on_change' keys.
+    """
+    return {
+        "runs_always": get_runs_always_filepaths(directory),
+        "runs_on_change": get_runs_on_change_filepaths(directory),
+    }
 
 
 def get_next_migration_number(directory: str) -> str:
