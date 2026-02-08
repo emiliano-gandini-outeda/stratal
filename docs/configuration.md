@@ -82,7 +82,11 @@ Comma-separated list of paths to directories containing SQLAlchemy models.
 DBWARDEN_MODEL_PATHS=models/,app/models/,core/database/models/
 ```
 
-If not specified, DBWarden will automatically look for `models/` or `model/` directories.
+If not specified, DBWarden will automatically discover models by:
+- Scanning all subdirectories of the current directory
+- Looking for `models/` or `model/` folders inside each subdirectory
+- Searching up to 5 parent directories from current working directory
+- Ignoring common library folders (`.venv`, `node_modules`, `__pycache__`, etc.)
 
 ### DBWARDEN_POSTGRES_SCHEMA
 
