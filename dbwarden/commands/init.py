@@ -19,19 +19,22 @@ def init_cmd() -> None:
     toml_path = current_dir / TOML_FILE
     if not toml_path.exists():
         toml_content = """# DBWarden Configuration
-sqlalchemy_url = "sqlite:///./mydb.db"
+# See documentation: https://emiliano-gandini-outeda.me/DBWarden/
 
-# Enable async mode (set to false for sync connections)
+# Database connection URL (required)
+sqlalchemy_url = "sqlite:///./development.db"
+
+# Enable async mode (true/false)
 async = false
 
-# Optional: PostgreSQL schema to use
+# PostgreSQL schema (optional)
 # postgres_schema = "public"
 
-# Optional: Paths to SQLAlchemy model files for automatic migration generation
-# model_paths = ["models/"]
+# Paths to SQLAlchemy models for auto-migration (optional)
+# model_paths = ["app/models/"]
 """
         toml_path.write_text(toml_content)
-        logger.info(f"Created DBWarden configuration file: {toml_path}")
+        logger.info(f"Created configuration file: {toml_path}")
         print(f"Created configuration file: {toml_path}")
 
     logger.info(

@@ -21,7 +21,14 @@ pip install dbwarden
 
 ## Configuration
 
-Create `.env` in your project:
+Create `warden.toml` in your project:
+
+```toml
+sqlalchemy_url = "sqlite:///./development.db"
+async = false
+```
+
+Or use environment variables:
 
 ```env
 DBWARDEN_SQLALCHEMY_URL=postgresql://user:pass@localhost/db

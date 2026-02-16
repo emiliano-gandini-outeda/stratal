@@ -59,6 +59,17 @@ sqlalchemy_url = "sqlite:///:memory:"
 sqlalchemy_url = "sqlite+aiosqlite:///./mydb.db"
 ```
 
+### Environment Variables (Fallback)
+
+If `warden.toml` is not found, DBWarden will fall back to environment variables:
+
+```env
+DBWARDEN_SQLALCHEMY_URL=postgresql://user:pass@localhost:5432/mydb
+DBWARDEN_ASYNC=false
+DBWARDEN_MODEL_PATHS=app/models/
+DBWARDEN_POSTGRES_SCHEMA=public
+```
+
 ## Optional Configuration
 
 ### async
