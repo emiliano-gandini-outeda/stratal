@@ -33,12 +33,6 @@ Create `warden.toml` in your project:
 sqlalchemy_url = "sqlite:///./development.db"
 ```
 
-Or use environment variables:
-
-```env
-DBWARDEN_SQLALCHEMY_URL=postgresql://user:pass@localhost/db
-```
-
 ## Basic Commands
 
 | Command | Description |
@@ -50,6 +44,7 @@ DBWARDEN_SQLALCHEMY_URL=postgresql://user:pass@localhost/db
 | `dbwarden rollback` | Revert the last migration |
 | `dbwarden history` | Show migration history |
 | `dbwarden status` | Show current status |
+| `dbwarden config` | Show current configuration |
 | `dbwarden check-db` | Inspect DB schema |
 | `dbwarden diff` | Show models vs DB differences |
 
@@ -87,14 +82,10 @@ dbwarden migrate --verbose
 
 # 5. View history
 dbwarden history
+
+# 6. Check configuration
+dbwarden config
 ```
-
-## Environment Variables
-
-| Variable | Description |
-|----------|-------------|
-| `DBWARDEN_SQLALCHEMY_URL` | DB connection URL |
-| `DBWARDEN_MODEL_PATHS` | Paths to SQLAlchemy models |
 
 ## Supported Databases
 
